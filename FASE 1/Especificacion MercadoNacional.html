@@ -1,0 +1,1214 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body><title>MercadoNacional</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@500;600&display=swap">
+
+<style>
+  :root {
+    --ground: #F2F5F4;
+    --surface: #FFFFFF;
+    --surface-2: #E8EEEC;
+    --ink: #13201E;
+    --ink-2: #4C5D5A;
+    --ink-3: #6E807C;
+    --line: #D3DDDA;
+    --line-strong: #B6C5C1;
+    --accent: #0E6B60;
+    --accent-ink: #0A544B;
+    --accent-soft: #DCEDE9;
+    --st-draft: #667874;
+    --st-open: #0E6B60;
+    --st-eval: #9A6410;
+    --st-award: #2A4B8D;
+    --st-void: #8A5350;
+    --shadow: 0 1px 2px rgba(19, 32, 30, .06), 0 8px 24px -16px rgba(19, 32, 30, .28);
+
+    --f-display: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+    --f-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --f-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #0D1615;
+      --surface: #14201F;
+      --surface-2: #1B2A28;
+      --ink: #E4EDEB;
+      --ink-2: #9CADA9;
+      --ink-3: #7E908C;
+      --line: #263835;
+      --line-strong: #354A47;
+      --accent: #52C1B0;
+      --accent-ink: #7FD6C7;
+      --accent-soft: #15332E;
+      --st-draft: #8A9C98;
+      --st-open: #52C1B0;
+      --st-eval: #D2A055;
+      --st-award: #8AA7E0;
+      --st-void: #D89A96;
+      --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px -16px rgba(0, 0, 0, .7);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ground: #0D1615;
+    --surface: #14201F;
+    --surface-2: #1B2A28;
+    --ink: #E4EDEB;
+    --ink-2: #9CADA9;
+    --ink-3: #7E908C;
+    --line: #263835;
+    --line-strong: #354A47;
+    --accent: #52C1B0;
+    --accent-ink: #7FD6C7;
+    --accent-soft: #15332E;
+    --st-draft: #8A9C98;
+    --st-open: #52C1B0;
+    --st-eval: #D2A055;
+    --st-award: #8AA7E0;
+    --st-void: #D89A96;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px -16px rgba(0, 0, 0, .7);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--f-body);
+    font-size: 16px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 1220px;
+    margin: 0 auto;
+    padding: 0 24px 96px;
+  }
+
+  /* ---------- masthead ---------- */
+  .masthead {
+    border-bottom: 1px solid var(--line);
+    padding: 56px 0 36px;
+    margin-bottom: 44px;
+  }
+  .eyebrow {
+    font-family: var(--f-mono);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--accent-ink);
+    margin: 0 0 18px;
+  }
+  .masthead h1 {
+    font-family: var(--f-display);
+    font-weight: 600;
+    font-size: clamp(2.6rem, 6vw, 4.1rem);
+    line-height: 1.02;
+    letter-spacing: -.02em;
+    margin: 0 0 14px;
+    text-wrap: balance;
+  }
+  .lede {
+    font-size: clamp(1.05rem, 2.2vw, 1.28rem);
+    line-height: 1.5;
+    color: var(--ink-2);
+    max-width: 60ch;
+    margin: 0 0 30px;
+  }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    font-family: var(--f-mono);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 5px 11px;
+    border: 1px solid var(--line-strong);
+    border-radius: 3px;
+    color: var(--ink-2);
+    background: var(--surface);
+    white-space: nowrap;
+  }
+  .chip strong { color: var(--ink); font-weight: 600; }
+
+  /* ---------- layout ---------- */
+  .cols { display: block; }
+  @media (min-width: 1040px) {
+    .cols { display: grid; grid-template-columns: 214px minmax(0, 1fr); gap: 56px; align-items: start; }
+  }
+
+  nav.toc { display: none; }
+  @media (min-width: 1040px) {
+    nav.toc {
+      display: block;
+      position: sticky;
+      top: 28px;
+      max-height: calc(100vh - 56px);
+      overflow-y: auto;
+    }
+  }
+  nav.toc p {
+    font-family: var(--f-mono);
+    font-size: 11px;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin: 0 0 12px;
+  }
+  nav.toc ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 1px; }
+  nav.toc a {
+    display: flex;
+    gap: 9px;
+    padding: 4px 0;
+    font-size: 13.5px;
+    line-height: 1.35;
+    color: var(--ink-2);
+    text-decoration: none;
+    border-radius: 2px;
+  }
+  nav.toc a:hover { color: var(--accent-ink); }
+  nav.toc a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  nav.toc .n { font-family: var(--f-mono); font-size: 11.5px; color: var(--ink-3); padding-top: 2px; min-width: 15px; }
+
+  main { min-width: 0; }
+
+  section { margin-bottom: 60px; scroll-margin-top: 24px; }
+  section > h2 {
+    font-family: var(--f-display);
+    font-weight: 600;
+    font-size: clamp(1.5rem, 3vw, 1.92rem);
+    line-height: 1.16;
+    letter-spacing: -.012em;
+    margin: 0 0 6px;
+    text-wrap: balance;
+    display: flex;
+    gap: 14px;
+    align-items: baseline;
+  }
+  section > h2 .num {
+    font-family: var(--f-mono);
+    font-size: .58em;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: 0;
+  }
+  .sub {
+    color: var(--ink-3);
+    font-size: 14.5px;
+    margin: 0 0 24px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--line);
+  }
+  h3 {
+    font-family: var(--f-body);
+    font-weight: 600;
+    font-size: 1.02rem;
+    letter-spacing: .002em;
+    margin: 32px 0 12px;
+  }
+  p { margin: 0 0 15px; max-width: 68ch; }
+  main a { color: var(--accent-ink); }
+
+  ul.plain { margin: 0 0 16px; padding-left: 20px; max-width: 68ch; }
+  ul.plain li { margin-bottom: 7px; }
+
+  code, .mono { font-family: var(--f-mono); font-size: .88em; }
+  code {
+    background: var(--surface-2);
+    padding: 1px 5px;
+    border-radius: 3px;
+    color: var(--ink);
+  }
+
+  /* ---------- cards ---------- */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    padding: 22px 24px;
+    box-shadow: var(--shadow);
+  }
+  .grid2 { display: grid; gap: 16px; grid-template-columns: 1fr; }
+  @media (min-width: 700px) { .grid2 { grid-template-columns: 1fr 1fr; } }
+  .grid3 { display: grid; gap: 16px; grid-template-columns: 1fr; }
+  @media (min-width: 700px) { .grid3 { grid-template-columns: repeat(3, 1fr); } }
+
+  .card h4 {
+    margin: 0 0 12px;
+    font-size: .78rem;
+    font-family: var(--f-mono);
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--accent-ink);
+  }
+  .card.neg h4 { color: var(--ink-3); }
+  .card ul { margin: 0; padding-left: 18px; }
+  .card li { margin-bottom: 8px; font-size: 15px; }
+  .card li:last-child { margin-bottom: 0; }
+
+  /* ---------- tables ---------- */
+  .tablewrap {
+    overflow-x: auto;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    background: var(--surface);
+    box-shadow: var(--shadow);
+    margin-bottom: 18px;
+  }
+  table { border-collapse: collapse; width: 100%; font-size: 14.5px; min-width: 560px; }
+  thead th {
+    text-align: left;
+    font-family: var(--f-mono);
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    background: var(--surface-2);
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--line-strong);
+    white-space: nowrap;
+  }
+  tbody td { padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  tbody tr:last-child td { border-bottom: 0; }
+  td.id, th.id { font-family: var(--f-mono); font-size: 12.5px; white-space: nowrap; color: var(--accent-ink); font-weight: 500; }
+  td.mono-cell { font-family: var(--f-mono); font-size: 12.5px; }
+  .tnum { font-variant-numeric: tabular-nums; }
+  /* ---------- pills ---------- */
+  .pill {
+    display: inline-block;
+    font-family: var(--f-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .05em;
+    padding: 2px 8px;
+    border-radius: 3px;
+    border: 1px solid currentColor;
+    white-space: nowrap;
+  }
+  .p-draft { color: var(--st-draft); }
+  .p-open  { color: var(--st-open); }
+  .p-eval  { color: var(--st-eval); }
+  .p-award { color: var(--st-award); }
+  .p-void  { color: var(--st-void); }
+  .p-main  { color: var(--accent-ink); }
+  .p-maint { color: var(--ink-3); }
+
+  /* ---------- figures ---------- */
+  figure { margin: 26px 0 20px; }
+  .figbox {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    padding: 22px 18px 10px;
+    overflow-x: auto;
+    box-shadow: var(--shadow);
+  }
+  figure svg { display: block; max-width: 100%; height: auto; min-width: 620px; margin: 0 auto; color: var(--ink-2); }
+  figcaption { font-size: 13.5px; color: var(--ink-3); margin-top: 12px; max-width: 68ch; }
+  .svg-node { fill: var(--surface-2); stroke: var(--line-strong); }
+  .svg-label { fill: var(--ink); font-family: "IBM Plex Sans", sans-serif; font-size: 13px; font-weight: 500; }
+  .svg-edge { font-family: "IBM Plex Mono", monospace; font-size: 11px; fill: var(--ink-3); }
+  .svg-goal { fill: var(--accent-soft); stroke: var(--accent); }
+  .svg-goal-text { fill: var(--accent-ink); font-family: "IBM Plex Sans", sans-serif; font-size: 13px; font-weight: 600; }
+
+  /* ---------- callout ---------- */
+  .note {
+    border-left: 2px solid var(--accent);
+    background: var(--accent-soft);
+    padding: 15px 18px;
+    border-radius: 0 4px 4px 0;
+    margin: 20px 0;
+  }
+  .note p { margin: 0; font-size: 14.5px; max-width: 66ch; }
+  .note p + p { margin-top: 9px; }
+
+  .open {
+    border-left: 2px solid var(--st-eval);
+    background: var(--surface);
+    border-top: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 15px 18px;
+    border-radius: 0 4px 4px 0;
+    margin-bottom: 12px;
+  }
+  .open h4 { margin: 0 0 5px; font-size: 15px; font-weight: 600; font-family: var(--f-body); letter-spacing: 0; text-transform: none; color: var(--ink); }
+  .open p { margin: 0; font-size: 14.5px; color: var(--ink-2); }
+
+  footer.end {
+    border-top: 1px solid var(--line);
+    margin-top: 68px;
+    padding-top: 22px;
+    font-size: 13.5px;
+    color: var(--ink-3);
+  }
+  footer.end p { max-width: 68ch; }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="eyebrow">Especificación de proyecto · Capstone PTY4614 · Duoc UC</p>
+    <h1>MercadoNacional</h1>
+    <p class="lede">Marketplace B2B donde empresas con giro comercial publican licitaciones privadas, postulan a las de terceros acreditando requisito por requisito que cumplen, y construyen reputación con cada proceso adjudicado.</p>
+    <div class="chips">
+      <span class="chip"><strong>Equipo</strong> 2 integrantes</span>
+      <span class="chip"><strong>Metodología</strong> Cascada</span>
+      <span class="chip"><strong>Front</strong> Angular</span>
+      <span class="chip"><strong>Back</strong> Java 21 · Spring Boot</span>
+      <span class="chip"><strong>BD</strong> Oracle</span>
+      <span class="chip"><strong>Infra</strong> Docker</span>
+      <span class="chip"><strong>Servicio externo</strong> SII</span>
+      <span class="chip"><strong>Mercado</strong> Chile</span>
+      <span class="chip"><strong>Sigla</strong> MERNAC</span>
+    </div>
+  </header>
+
+  <div class="cols">
+
+    <nav class="toc" aria-label="Contenido">
+      <p>Contenido</p>
+      <ol>
+        <li><a href="#s1"><span class="n">1</span><span>Problema y contexto</span></a></li>
+        <li><a href="#s2"><span class="n">2</span><span>Qué construimos</span></a></li>
+        <li><a href="#s3"><span class="n">3</span><span>Alcance</span></a></li>
+        <li><a href="#s4"><span class="n">4</span><span>Actores y roles</span></a></li>
+        <li><a href="#s5"><span class="n">5</span><span>Reglas de negocio</span></a></li>
+        <li><a href="#s6"><span class="n">6</span><span>Ciclo de vida</span></a></li>
+        <li><a href="#s7"><span class="n">7</span><span>Flujos principales</span></a></li>
+        <li><a href="#s8"><span class="n">8</span><span>Reputación y prestigio</span></a></li>
+        <li><a href="#s9"><span class="n">9</span><span>Requerimientos funcionales</span></a></li>
+        <li><a href="#s10"><span class="n">10</span><span>No funcionales</span></a></li>
+        <li><a href="#s11"><span class="n">11</span><span>Mantenedores</span></a></li>
+        <li><a href="#s12"><span class="n">12</span><span>Casos de uso</span></a></li>
+        <li><a href="#s13"><span class="n">13</span><span>Modelo de datos</span></a></li>
+        <li><a href="#s14"><span class="n">14</span><span>Arquitectura</span></a></li>
+        <li><a href="#s15"><span class="n">15</span><span>Integración SII</span></a></li>
+        <li><a href="#s16"><span class="n">16</span><span>Reportes y correos</span></a></li>
+        <li><a href="#s17"><span class="n">17</span><span>Calidad y pruebas</span></a></li>
+        <li><a href="#s18"><span class="n">18</span><span>Cumplimiento del ramo</span></a></li>
+        <li><a href="#s19"><span class="n">19</span><span>Decisiones abiertas</span></a></li>
+      </ol>
+    </nav>
+
+    <main>
+
+      <!-- 1 -->
+      <section id="s1">
+        <h2><span class="num">01</span><span>Problema y contexto</span></h2>
+        <p class="sub">Qué está roto hoy y para quién.</p>
+        <p>En Chile, cuando una empresa privada quiere licitar un proyecto —una obra, una implementación, un suministro— no tiene un equivalente privado a Mercado Público. Esa plataforma existe para las compras del Estado; las licitaciones entre privados quedan fuera de su alcance.</p>
+        <p>El resultado es que ese mercado opera por canales informales: correos, planillas compartidas, contactos personales, grupos de WhatsApp. Eso produce cuatro problemas concretos:</p>
+        <ul class="plain">
+          <li><strong>Descubrimiento.</strong> Quien publica llega solo a los proveedores que ya conoce; quien busca proyectos no tiene dónde mirar.</li>
+          <li><strong>Verificación de requisitos.</strong> Las condiciones exigidas (certificaciones, experiencia, capacidad, cobertura) se declaran en texto libre y se revisan a mano, oferta por oferta.</li>
+          <li><strong>Trazabilidad.</strong> No queda registro estructurado de en qué etapa está cada proceso, quién postuló, qué declaró y en qué momento.</li>
+          <li><strong>Confianza.</strong> No hay historial. Cada negociación parte de cero, y el comportamiento pasado de una empresa —cumplió plazos, entregó lo prometido, publicó bases claras— no viaja con ella al siguiente proceso.</li>
+        </ul>
+        <p><strong>A quién impacta:</strong> empresas con giro comercial en todo Chile —pymes principalmente— que hoy publican o buscan proyectos de pequeña, mediana y gran escala sin un canal formal.</p>
+      </section>
+
+      <!-- 2 -->
+      <section id="s2">
+        <h2><span class="num">02</span><span>Qué construimos</span></h2>
+        <p class="sub">La propuesta, en una frase y en sus tres piezas.</p>
+        <p>MercadoNacional es una plataforma web donde una empresa validada publica una licitación con sus requisitos explícitos, otras empresas postulan acreditando que cumplen cada requisito, y el publicador compara, adjudica y evalúa a la contraparte, dejando registro de todo el proceso y reputación que persiste entre procesos.</p>
+        <div class="grid3">
+          <div class="card">
+            <h4>Publicar</h4>
+            <ul>
+              <li>Descripción del proyecto, presupuesto referencial y plazo de cierre.</li>
+              <li>Lista de requisitos, marcados como obligatorios o deseables.</li>
+              <li>Documentos de bases adjuntos.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>Postular</h4>
+            <ul>
+              <li>Búsqueda y filtro de licitaciones abiertas.</li>
+              <li>Declaración explícita <em>cumple / no cumple</em> requisito por requisito.</li>
+              <li>El sistema bloquea la postulación si se declara incumplimiento de un requisito obligatorio.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>Adjudicar y evaluar</h4>
+            <ul>
+              <li>Matriz comparativa de postulantes contra los requisitos deseables.</li>
+              <li>Adjudicación o declaración de desierta, con motivo.</li>
+              <li>Evaluación mutua que alimenta la reputación pública de ambas partes.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="note">
+          <p><strong>Las dos piezas que diferencian el proyecto</strong> son el <em>compliance</em> y la <em>reputación</em>. La postulación no es un archivo adjunto que alguien lee después, sino una declaración estructurada que el sistema valida antes de aceptarla; y cada proceso adjudicado deja un puntaje que viaja con la empresa al siguiente. Lo primero garantiza que todos los postulantes son elegibles; lo segundo da un criterio para elegir entre ellos.</p>
+        </div>
+      </section>
+
+      <!-- 3 -->
+      <section id="s3">
+        <h2><span class="num">03</span><span>Alcance</span></h2>
+        <p class="sub">El límite explícito del semestre. Lo de la derecha es tan importante como lo de la izquierda.</p>
+        <div class="grid2">
+          <div class="card">
+            <h4>Qué hace el sistema</h4>
+            <ul>
+              <li>Registro de empresas con validación de RUT y giro comercial.</li>
+              <li>Autenticación, sesiones, perfiles y roles.</li>
+              <li>Publicación de licitaciones con requisitos y documentos.</li>
+              <li>Postulación con declaración de cumplimiento obligatoria y bloqueante.</li>
+              <li>Comparación de postulantes y adjudicación.</li>
+              <li>Evaluación mutua, reputación y niveles de prestigio.</li>
+              <li>Panel de trazabilidad y bitácora de estados.</li>
+              <li>Dos reportes con filtros, exportables a PDF y XLS.</li>
+              <li>Notificaciones por correo en los eventos de acción.</li>
+              <li>Log de errores auditable y suite de pruebas automatizada.</li>
+              <li>Aplicación secundaria con mantenedores para el administrador.</li>
+            </ul>
+          </div>
+          <div class="card neg">
+            <h4>Qué no hace</h4>
+            <ul>
+              <li><strong>No procesa pagos.</strong> El pago del proyecto se acuerda fuera de la plataforma; no hay pasarela ni comisiones.</li>
+              <li><strong>No publica servicios sueltos.</strong> Solo proyectos licitables; no es un directorio de proveedores.</li>
+              <li><strong>No atiende B2C.</strong> Sin giro comercial no hay registro.</li>
+              <li><strong>No ejecuta procesos programados.</strong> Nada queda escuchando fechas: el cierre se evalúa al acceder y los correos solo salen por una acción de un usuario.</li>
+              <li><strong>La reputación no decide.</strong> Informa la adjudicación, pero no ordena ni descarta postulantes automáticamente, ni suspende cuentas por caer bajo un umbral.</li>
+              <li>No verifica que lo declarado sea cierto: valida la coherencia de la declaración, no audita la realidad detrás de ella.</li>
+              <li>No modera automáticamente las evaluaciones; la moderación es manual y del administrador.</li>
+              <li>No firma contratos digitalmente ni emite documentos tributarios.</li>
+              <li>No tiene aplicación móvil nativa (sí diseño responsivo).</li>
+              <li>No incluye mensajería interna entre empresas en esta versión.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4 -->
+      <section id="s4">
+        <h2><span class="num">04</span><span>Actores y roles</span></h2>
+        <p class="sub">Quién usa el sistema y qué puede hacer.</p>
+        <div class="tablewrap">
+          <table>
+            <thead>
+              <tr><th class="id">Actor</th><th>Descripción</th><th>Permisos principales</th><th>App</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="id">Empresa</td>
+                <td>Persona natural con giro comercial, registrada y validada. Es el actor central y tiene <strong>rol dual</strong>.</td>
+                <td>Publicar licitaciones, postular a licitaciones de terceros, adjudicar las propias, evaluar a la contraparte, ver sus paneles y reportes.</td>
+                <td><span class="pill p-main">Principal</span></td>
+              </tr>
+              <tr>
+                <td class="id">Administrador</td>
+                <td>Operador de la plataforma. No participa del negocio: lo sostiene.</td>
+                <td>Gestionar los mantenedores, activar o suspender empresas, revisar las que caen en nivel crítico, moderar evaluaciones denunciadas, consultar la bitácora y el log de errores.</td>
+                <td><span class="pill p-maint">Secundaria</span></td>
+              </tr>
+              <tr>
+                <td class="id">Visitante</td>
+                <td>Usuario no autenticado.</td>
+                <td>Ver el listado público de licitaciones abiertas y la reputación de las empresas. No puede publicar ni postular.</td>
+                <td><span class="pill p-main">Principal</span></td>
+              </tr>
+              <tr>
+                <td class="id">Servicio SII</td>
+                <td>Actor externo (sistema). Fuente de verdad para la validación de RUT y giro.</td>
+                <td>Responde a las consultas de validación durante el registro.</td>
+                <td>—</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>El rol dual es una decisión de diseño deliberada: <em>no</em> existen cuentas separadas de "comprador" y "proveedor". Una misma empresa alterna entre publicar y postular sin cambiar de perfil, y acumula una sola reputación por ambos lados de la relación.</p>
+      </section>
+
+      <!-- 5 -->
+      <section id="s5">
+        <h2><span class="num">05</span><span>Reglas de negocio</span></h2>
+        <p class="sub">Las restricciones que el sistema debe hacer cumplir, no sugerir.</p>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th class="id">ID</th><th>Regla</th></tr></thead>
+            <tbody>
+              <tr><td class="id">RN-01</td><td>Solo pueden registrarse personas naturales con giro comercial vigente. El RUT y el giro se validan contra el SII antes de activar la cuenta.</td></tr>
+              <tr><td class="id">RN-02</td><td>Un RUT puede tener una sola cuenta de empresa activa en la plataforma.</td></tr>
+              <tr><td class="id">RN-03</td><td>La plataforma publica únicamente <em>proyectos</em> licitables. No admite publicación de servicios generales o aislados.</td></tr>
+              <tr><td class="id">RN-04</td><td>Toda empresa activa puede publicar y postular indistintamente (rol dual).</td></tr>
+              <tr><td class="id">RN-05</td><td>Una empresa <strong>no puede postular a su propia licitación</strong>.</td></tr>
+              <tr><td class="id">RN-06</td><td>Una empresa puede tener como máximo una postulación vigente por licitación.</td></tr>
+              <tr><td class="id">RN-07</td><td>Toda licitación debe declarar al menos un requisito antes de poder publicarse.</td></tr>
+              <tr><td class="id">RN-08</td><td>La postulación no puede enviarse sin que el usuario se haya pronunciado <em>cumple / no cumple</em> sobre <strong>cada</strong> requisito.</td></tr>
+              <tr><td class="id">RN-09</td><td>Si el postulante declara <strong>no cumplir un requisito obligatorio</strong>, el sistema <strong>impide continuar con la postulación</strong>. El envío se bloquea y se informa cuál es el requisito que no se cumple. En consecuencia, toda postulación recibida cumple la totalidad de los requisitos obligatorios.</td></tr>
+              <tr><td class="id">RN-10</td><td>La declaración de cumplimiento es inmutable una vez enviada: para corregirla hay que retirar la postulación y volver a postular, y ambos hechos quedan en bitácora.</td></tr>
+              <tr><td class="id">RN-11</td><td>No se reciben postulaciones después de la fecha de cierre. El cierre se determina por comparación con la fecha al momento de acceder a la licitación (cierre perezoso), sin proceso programado en segundo plano.</td></tr>
+              <tr><td class="id">RN-12</td><td>Una licitación con postulaciones recibidas no puede editarse ni cancelarse; solo adjudicarse o declararse desierta.</td></tr>
+              <tr><td class="id">RN-13</td><td>Solo el publicador puede adjudicar su licitación, y solo a una postulación recibida dentro del plazo.</td></tr>
+              <tr><td class="id">RN-14</td><td>Toda transición de estado queda registrada en bitácora con usuario, fecha y estado anterior.</td></tr>
+              <tr><td class="id">RN-15</td><td>Solo pueden evaluarse mutuamente la empresa publicadora y la empresa adjudicataria de una licitación adjudicada. Los postulantes no adjudicados no evalúan ni son evaluados.</td></tr>
+              <tr><td class="id">RN-16</td><td>La evaluación se habilita al momento de la adjudicación y expira transcurrida la ventana definida como parámetro del sistema.</td></tr>
+              <tr><td class="id">RN-17</td><td>Cada parte puede emitir una sola evaluación por licitación, y es inmutable una vez enviada.</td></tr>
+              <tr><td class="id">RN-18</td><td>La reputación es pública y no puede ser editada ni ocultada por la empresa evaluada. Solo el administrador puede ocultar una evaluación previamente denunciada.</td></tr>
+              <tr><td class="id">RN-19</td><td>La reputación informa la decisión de adjudicación, pero no la determina: el sistema nunca descarta ni ordena postulantes automáticamente por su puntaje.</td></tr>
+              <tr><td class="id">RN-20</td><td>El promedio y el nivel de prestigio se recalculan con cada evaluación recibida, en ambas direcciones. Ninguna empresa queda fijada a un nivel de forma permanente.</td></tr>
+              <tr><td class="id">RN-21</td><td>Una empresa que alcanza el nivel Crítico queda marcada para revisión del administrador, quien decide si corresponde suspenderla. El sistema no suspende ni restringe cuentas automáticamente por reputación.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 6 -->
+      <section id="s6">
+        <h2><span class="num">06</span><span>Ciclo de vida de una licitación</span></h2>
+        <p class="sub">La máquina de estados que el panel de trazabilidad refleja.</p>
+
+        <figure>
+          <div class="figbox">
+            <svg viewBox="0 0 900 290" role="img" aria-label="Diagrama de estados: una licitación pasa de Borrador a Publicada al publicarse, de Publicada a En evaluación cuando vence el plazo, y desde En evaluación termina en Adjudicada o Desierta. Adjudicada habilita una ventana de evaluación mutua entre las partes. Desde Publicada, si no hay postulaciones, puede pasar a Cancelada.">
+              <defs>
+                <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"></path>
+                </marker>
+              </defs>
+
+              <!-- main row -->
+              <rect class="svg-node" x="14" y="112" width="124" height="48" rx="4"></rect>
+              <text class="svg-label" x="76" y="141" text-anchor="middle">BORRADOR</text>
+
+              <rect class="svg-node" x="248" y="112" width="124" height="48" rx="4"></rect>
+              <text class="svg-label" x="310" y="141" text-anchor="middle">PUBLICADA</text>
+
+              <rect class="svg-node" x="482" y="112" width="146" height="48" rx="4"></rect>
+              <text class="svg-label" x="555" y="141" text-anchor="middle">EN EVALUACIÓN</text>
+
+              <!-- terminals -->
+              <rect class="svg-goal" x="738" y="18" width="148" height="46" rx="4"></rect>
+              <text class="svg-goal-text" x="812" y="46" text-anchor="middle">ADJUDICADA</text>
+
+              <rect class="svg-node" x="738" y="190" width="148" height="48" rx="4"></rect>
+              <text class="svg-label" x="812" y="219" text-anchor="middle">DESIERTA</text>
+
+              <rect class="svg-node" x="248" y="212" width="124" height="48" rx="4"></rect>
+              <text class="svg-label" x="310" y="241" text-anchor="middle">CANCELADA</text>
+
+              <!-- reputation window -->
+              <rect x="738" y="88" width="148" height="44" rx="4" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.2" stroke-dasharray="4 3"></rect>
+              <text class="svg-goal-text" x="812" y="107" text-anchor="middle">Evaluación mutua</text>
+              <text class="svg-edge" x="812" y="123" text-anchor="middle" fill="var(--accent-ink)">ventana de N días</text>
+
+              <line x1="812" y1="64" x2="812" y2="82" stroke="var(--accent)" stroke-width="1.4" marker-end="url(#ar)"></line>
+
+              <!-- edges -->
+              <line x1="138" y1="136" x2="242" y2="136" stroke="currentColor" stroke-width="1.4" marker-end="url(#ar)"></line>
+              <text class="svg-edge" x="190" y="127" text-anchor="middle">publicar</text>
+
+              <line x1="372" y1="136" x2="476" y2="136" stroke="currentColor" stroke-width="1.4" marker-end="url(#ar)"></line>
+              <text class="svg-edge" x="424" y="127" text-anchor="middle">vence el plazo</text>
+
+              <path d="M 555 112 L 555 42 L 732 42" fill="none" stroke="var(--accent)" stroke-width="1.6" marker-end="url(#ar)"></path>
+              <text class="svg-edge" x="645" y="34" text-anchor="middle" fill="var(--accent-ink)">adjudicar</text>
+
+              <path d="M 555 160 L 555 214 L 732 214" fill="none" stroke="currentColor" stroke-width="1.4" marker-end="url(#ar)"></path>
+              <text class="svg-edge" x="645" y="206" text-anchor="middle">sin postulantes</text>
+
+              <line x1="310" y1="160" x2="310" y2="206" stroke="currentColor" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#ar)"></line>
+              <text class="svg-edge" x="320" y="187" text-anchor="start">cancelar</text>
+            </svg>
+          </div>
+          <figcaption>Los cinco estados de una licitación, más la ventana de evaluación que abre la adjudicación. La flecha punteada de la izquierda solo está disponible mientras la licitación no tenga postulaciones (RN-12). La transición <em>vence el plazo</em> no la ejecuta ningún proceso programado: se resuelve al acceder a la licitación (RN-11).</figcaption>
+        </figure>
+
+        <h3>Estados de una postulación</h3>
+        <p>En paralelo, cada postulación tiene su propio estado, visible para el postulante en su panel:</p>
+        <p>
+          <span class="pill p-draft">ENVIADA</span>&nbsp;
+          <span class="pill p-void">RETIRADA</span>&nbsp;
+          <span class="pill p-award">ADJUDICADA</span>&nbsp;
+          <span class="pill p-draft">NO ADJUDICADA</span>
+        </p>
+        <div class="note">
+          <p><strong>No existe un estado de postulación "no conforme".</strong> Como RN-09 bloquea el envío cuando se declara incumplimiento de un requisito obligatorio, esas postulaciones nunca llegan a persistirse. Toda postulación en estado <code>ENVIADA</code> cumple, por construcción, el 100% de los requisitos obligatorios, y el sistema puede asumirlo sin verificarlo de nuevo.</p>
+        </div>
+      </section>
+
+      <!-- 7 -->
+      <section id="s7">
+        <h2><span class="num">07</span><span>Flujos principales</span></h2>
+        <p class="sub">Los cinco recorridos que definen el producto.</p>
+
+        <h3>A · Registro y validación de empresa</h3>
+        <ul class="plain">
+          <li>La empresa ingresa RUT, razón social, giro, contacto y región.</li>
+          <li>El backend consulta el servicio del SII para verificar que el RUT exista y tenga giro comercial vigente.</li>
+          <li>Si la validación es exitosa, la cuenta queda <em>pendiente de activación</em> y se envía correo de confirmación.</li>
+          <li>Si falla, se informa el motivo y el registro no se completa (RN-01).</li>
+          <li>La empresa parte con nivel de prestigio <em>Nuevo</em> y sin evaluaciones.</li>
+        </ul>
+
+        <h3>B · Publicación de una licitación</h3>
+        <ul class="plain">
+          <li>La empresa crea la licitación en <code>BORRADOR</code>: título, descripción, rubro, región, presupuesto referencial y fecha de cierre.</li>
+          <li>Agrega los requisitos uno a uno, marcando cada uno como obligatorio o deseable (RN-07).</li>
+          <li>Adjunta documentos de bases si corresponde.</li>
+          <li>Al publicar, la licitación pasa a <code>PUBLICADA</code> y se hace visible en el listado público, junto a la reputación del publicador.</li>
+        </ul>
+
+        <h3>C · Postulación con declaración de cumplimiento</h3>
+        <ul class="plain">
+          <li>La empresa encuentra la licitación por búsqueda o filtros (rubro, región, presupuesto, fecha de cierre).</li>
+          <li>Revisa las bases y abre el formulario de postulación.</li>
+          <li>El sistema despliega <strong>todos</strong> los requisitos y exige un pronunciamiento explícito por cada uno: <em>cumple</em> o <em>no cumple</em>, con comentario opcional (RN-08).</li>
+          <li>Si declara no cumplir un requisito <strong>obligatorio</strong>, el sistema <strong>bloquea el envío</strong>, señala el requisito que impide continuar y no crea la postulación (RN-09).</li>
+          <li>Si declara no cumplir un requisito <strong>deseable</strong>, la postulación se envía normalmente; esa diferencia es la que después alimenta la comparación.</li>
+          <li>Al enviar, se registra la declaración completa con fecha, usuario y estado, y pasa a ser inmutable (RN-10).</li>
+          <li>El publicador recibe notificación por correo de la nueva postulación.</li>
+        </ul>
+
+        <h3>D · Evaluación y adjudicación</h3>
+        <ul class="plain">
+          <li>Una vez vencido el plazo, al acceder a la licitación esta se muestra como <code>EN EVALUACIÓN</code> y deja de aceptar postulaciones (RN-11).</li>
+          <li>El publicador ve la matriz comparativa: postulantes en filas, requisitos en columnas.</li>
+          <li><strong>La matriz no sirve para descartar, sino para elegir.</strong> Como todos los postulantes cumplen los requisitos obligatorios (RN-09), la comparación se juega en los <em>requisitos deseables</em> cumplidos, el monto ofertado y la reputación de cada postulante.</li>
+          <li>Adjudica a un postulante indicando el motivo, o declara la licitación desierta.</li>
+          <li>Al adjudicar, todos los postulantes reciben el resultado por correo y se abre la ventana de evaluación mutua entre publicador y adjudicatario.</li>
+        </ul>
+
+        <h3>E · Evaluación mutua y reputación</h3>
+        <ul class="plain">
+          <li>Publicador y adjudicatario reciben una invitación a evaluarse mutuamente (RN-15).</li>
+          <li>Cada parte puntúa los criterios definidos en el catálogo y puede dejar un comentario.</li>
+          <li>La evaluación es única por parte e inmutable una vez enviada (RN-17).</li>
+          <li>Al recibirse, se recalcula la reputación de la empresa evaluada y, si corresponde, su nivel de prestigio.</li>
+          <li>Si la ventana expira sin evaluación, el proceso se cierra sin puntaje: no hay penalización por no evaluar (RN-16).</li>
+        </ul>
+      </section>
+
+      <!-- 8 -->
+      <section id="s8">
+        <h2><span class="num">08</span><span>Reputación y prestigio</span></h2>
+        <p class="sub">Cómo se gana, cómo se calcula y para qué sirve.</p>
+
+        <p>La reputación resuelve el cuarto problema de §1: hoy cada negociación privada parte de cero porque el comportamiento pasado de una empresa no viaja con ella. Aquí, cada proceso adjudicado deja evidencia que la acompaña al siguiente.</p>
+
+        <h3>Quién evalúa a quién</h3>
+        <p>Solo las dos partes de una relación comercial real: la empresa que publicó y la que resultó adjudicada. Los postulantes no adjudicados no evalúan, porque no hubo relación que evaluar (RN-15). La evaluación es mutua y simétrica: el proveedor puntúa al mandante igual que el mandante al proveedor.</p>
+
+        <h3>Criterios</h3>
+        <p>Cada evaluación puntúa de 1 a 5 un conjunto de criterios administrables desde la aplicación secundaria. La propuesta inicial del catálogo:</p>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th class="id">Criterio</th><th>Evalúa</th><th>Aplica a</th></tr></thead>
+            <tbody>
+              <tr><td class="id">Cumplimiento de plazos</td><td>Si lo comprometido se entregó o se pagó cuando correspondía.</td><td>Ambas partes</td></tr>
+              <tr><td class="id">Calidad de la entrega</td><td>Si el resultado se ajustó a lo ofertado.</td><td>Adjudicatario</td></tr>
+              <tr><td class="id">Claridad de las bases</td><td>Si los requisitos y el alcance publicados fueron precisos y completos.</td><td>Publicador</td></tr>
+              <tr><td class="id">Comunicación</td><td>Disponibilidad y tiempo de respuesta durante el proceso.</td><td>Ambas partes</td></tr>
+              <tr><td class="id">Fidelidad a lo declarado</td><td>Si lo que la empresa declaró cumplir al postular resultó ser efectivo.</td><td>Adjudicatario</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>El último criterio es el que cierra el círculo con el módulo de compliance: la declaración de la postulación es una promesa, y la evaluación es donde esa promesa se contrasta con lo ocurrido.</p>
+
+        <h3>Cálculo de la reputación</h3>
+        <ul class="plain">
+          <li>La <strong>reputación</strong> de una empresa es el promedio ponderado de los puntajes recibidos en todas sus evaluaciones, expresado de 1,0 a 5,0.</li>
+          <li>La ponderación de cada criterio es un parámetro administrable, no un valor fijo en el código.</li>
+          <li>Junto al promedio siempre se muestra el <strong>número de procesos evaluados</strong>: un 5,0 con una evaluación no es lo mismo que un 4,6 con treinta, y el usuario debe poder ver la diferencia.</li>
+          <li>Las evaluaciones ocultas por moderación no entran en el cálculo.</li>
+        </ul>
+
+        <h3>Niveles de prestigio</h3>
+        <p>El nivel es un tramo derivado del promedio, pensado para que la reputación se lea de un vistazo sin tener que interpretar un decimal. La escala cubre el rango completo: un mal desempeño sostenido es tan visible como uno bueno, porque una plataforma que solo destaca a los mejores no le sirve a quien necesita detectar con quién no conviene trabajar.</p>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th class="id">Nivel</th><th>Promedio</th><th>Condición adicional</th><th>Qué comunica</th></tr></thead>
+            <tbody>
+              <tr><td class="id">Destacado</td><td class="tnum">4,5 – 5,0</td><td class="tnum">10 o más procesos</td><td>Desempeño sobresaliente y sostenido en el tiempo.</td></tr>
+              <tr><td class="id">Confiable</td><td class="tnum">3,5 – 4,4</td><td>—</td><td>Cumple lo que compromete, sin reparos relevantes.</td></tr>
+              <tr><td class="id">Con observaciones</td><td class="tnum">2,5 – 3,4</td><td>—</td><td>Ha tenido incumplimientos o fricciones repetidas; conviene revisar el detalle antes de contratar.</td></tr>
+              <tr><td class="id">Crítico</td><td class="tnum">1,0 – 2,4</td><td>—</td><td>Historial de incumplimientos graves. Queda marcada para revisión del administrador.</td></tr>
+              <tr><td class="id">Nuevo</td><td>—</td><td class="tnum">menos de 3 procesos</td><td>Sin historial suficiente para calificar. Precede a todos los tramos anteriores.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Los umbrales son administrables. Dos precisiones sobre los bordes:</p>
+        <ul class="plain">
+          <li><strong>El nivel más alto exige historial, no solo puntaje.</strong> Una empresa con promedio 4,8 y cuatro procesos evaluados se muestra como <em>Confiable</em>, no como <em>Destacado</em>: sin volumen, un promedio alto todavía puede ser suerte.</li>
+          <li><strong>Ningún tramo bajo exige volumen.</strong> Con tres procesos y promedio 1,8 la empresa aparece como <em>Crítico</em>. Sería un error pedir diez incumplimientos para advertirlo.</li>
+        </ul>
+
+        <h3>Bajar de nivel, y volver a subir</h3>
+        <p>La reputación es un promedio vivo, no una marca permanente. Cada evaluación recibida recalcula el promedio y, si corresponde, el nivel (RN-20), y ese recálculo opera en las dos direcciones.</p>
+        <ul class="plain">
+          <li>Una empresa <em>Confiable</em> que acumula malas evaluaciones baja de tramo, y el descenso es visible de inmediato para quien la esté evaluando como contraparte.</li>
+          <li>Una empresa en <em>Crítico</em> puede recuperarse acumulando buenas evaluaciones. Cuesta —el promedio arrastra la historia completa— pero el camino de vuelta existe, y eso es lo que distingue una reputación de una lista negra.</li>
+          <li>Cuando una empresa cae a <em>Crítico</em> se le notifica por correo, para que se entere por el sistema y no por el silencio de las contrapartes.</li>
+        </ul>
+
+        <div class="note">
+          <p><strong>El nivel crítico no expulsa a nadie automáticamente.</strong> Marca a la empresa para revisión del administrador, que es quien evalúa el caso y decide si corresponde suspenderla (RN-21, RF-31). La decisión es humana y queda en bitácora. Suspender por umbral automático castigaría por igual a quien tuvo dos malas experiencias reales y a quien fue víctima de evaluaciones malintencionadas; para eso existen la denuncia y la moderación.</p>
+        </div>
+
+        <h3>Dónde se ve</h3>
+        <ul class="plain">
+          <li>En el <strong>perfil público</strong> de la empresa, con el detalle de evaluaciones recibidas.</li>
+          <li>En el <strong>listado de licitaciones</strong>, junto al nombre del publicador, para que quien evalúa postular sepa con quién trataría.</li>
+          <li>En la <strong>matriz comparativa</strong> de postulantes, como una columna más junto al cumplimiento de los deseables y el monto.</li>
+        </ul>
+
+        <div class="note">
+          <p><strong>La reputación informa, no decide (RN-19).</strong> El sistema no ordena por puntaje ni descarta postulantes bajo un umbral. La adjudicación sigue siendo una decisión humana y el publicador puede adjudicar a quien quiera, incluida una empresa nueva sin historial. Esto evita que la plataforma se vuelva inaccesible para quien recién entra.</p>
+        </div>
+
+        <h3>Resistencia al abuso</h3>
+        <ul class="plain">
+          <li>No hay evaluaciones sin adjudicación previa: no se puede puntuar a una empresa con la que no se cerró un proceso.</li>
+          <li>Una evaluación por parte y por licitación, inmutable (RN-17).</li>
+          <li>La empresa evaluada no puede editar ni ocultar lo recibido (RN-18).</li>
+          <li>Cualquiera de las partes puede denunciar una evaluación; el administrador la revisa y decide si la oculta. Es moderación manual y queda en bitácora.</li>
+        </ul>
+      </section>
+
+      <!-- 9 -->
+      <section id="s9">
+        <h2><span class="num">09</span><span>Requerimientos funcionales</span></h2>
+        <p class="sub">Numerados por módulo. Esta lista es la que alimenta el Informe ERS y la planilla de requerimientos.</p>
+
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th class="id">ID</th><th>Requerimiento</th><th>Módulo</th></tr></thead>
+            <tbody>
+              <tr><td class="id">RF-01</td><td>Registrar empresa con RUT, razón social, giro, contacto y ubicación.</td><td>Cuentas</td></tr>
+              <tr><td class="id">RF-02</td><td>Validar RUT y giro comercial contra el servicio del SII durante el registro.</td><td>Cuentas</td></tr>
+              <tr><td class="id">RF-03</td><td>Autenticar usuarios con correo y contraseña.</td><td>Cuentas</td></tr>
+              <tr><td class="id">RF-04</td><td>Gestionar sesión con expiración y cierre de sesión explícito.</td><td>Cuentas</td></tr>
+              <tr><td class="id">RF-05</td><td>Asignar y verificar roles (Administrador, Empresa) en cada operación.</td><td>Cuentas</td></tr>
+              <tr><td class="id">RF-06</td><td>Recuperar contraseña mediante enlace enviado por correo.</td><td>Cuentas</td></tr>
+              <tr><td class="id">RF-07</td><td>Editar el perfil y los datos de contacto de la empresa.</td><td>Cuentas</td></tr>
+              <tr><td class="id">RF-08</td><td>Crear una licitación en estado borrador.</td><td>Licitaciones</td></tr>
+              <tr><td class="id">RF-09</td><td>Definir la lista de requisitos de la licitación, marcando cada uno como obligatorio o deseable.</td><td>Licitaciones</td></tr>
+              <tr><td class="id">RF-10</td><td>Adjuntar documentos de bases a la licitación.</td><td>Licitaciones</td></tr>
+              <tr><td class="id">RF-11</td><td>Publicar la licitación, fijando fecha de cierre.</td><td>Licitaciones</td></tr>
+              <tr><td class="id">RF-12</td><td>Editar o cancelar una licitación mientras no tenga postulaciones.</td><td>Licitaciones</td></tr>
+              <tr><td class="id">RF-13</td><td>Determinar el cierre de la recepción de postulaciones comparando la fecha de cierre al momento de acceder a la licitación, sin proceso programado.</td><td>Licitaciones</td></tr>
+              <tr><td class="id">RF-14</td><td>Listar y buscar licitaciones publicadas con filtros por rubro, región, presupuesto y fecha de cierre.</td><td>Postulaciones</td></tr>
+              <tr><td class="id">RF-15</td><td>Postular a una licitación de un tercero.</td><td>Postulaciones</td></tr>
+              <tr><td class="id">RF-16</td><td>Exigir declaración explícita de cumplimiento sobre cada requisito antes de enviar la postulación.</td><td>Postulaciones</td></tr>
+              <tr><td class="id">RF-17</td><td>Impedir el envío de la postulación cuando se declara incumplimiento de un requisito obligatorio, indicando cuál lo bloquea.</td><td>Postulaciones</td></tr>
+              <tr><td class="id">RF-18</td><td>Registrar la declaración de cumplimiento de forma inmutable con fecha y usuario.</td><td>Postulaciones</td></tr>
+              <tr><td class="id">RF-19</td><td>Retirar una postulación antes del cierre.</td><td>Postulaciones</td></tr>
+              <tr><td class="id">RF-20</td><td>Ver las postulaciones recibidas en una licitación propia.</td><td>Adjudicación</td></tr>
+              <tr><td class="id">RF-21</td><td>Comparar postulantes en una matriz que muestre requisitos deseables cumplidos, monto ofertado y reputación.</td><td>Adjudicación</td></tr>
+              <tr><td class="id">RF-22</td><td>Adjudicar la licitación a un postulante, registrando el motivo.</td><td>Adjudicación</td></tr>
+              <tr><td class="id">RF-23</td><td>Declarar desierta una licitación.</td><td>Adjudicación</td></tr>
+              <tr><td class="id">RF-24</td><td>Mostrar un panel con el estado actual de todas las licitaciones propias.</td><td>Trazabilidad</td></tr>
+              <tr><td class="id">RF-25</td><td>Mostrar un panel con el estado de todas las postulaciones enviadas.</td><td>Trazabilidad</td></tr>
+              <tr><td class="id">RF-26</td><td>Registrar y consultar la bitácora de cambios de estado de cada licitación y postulación.</td><td>Trazabilidad</td></tr>
+              <tr><td class="id">RF-27</td><td>Generar reporte de licitaciones con filtros, exportable a PDF y XLS.</td><td>Reportes</td></tr>
+              <tr><td class="id">RF-28</td><td>Generar reporte de postulaciones y cumplimiento de requisitos deseables con filtros, exportable a PDF y XLS.</td><td>Reportes</td></tr>
+              <tr><td class="id">RF-29</td><td>Notificar por correo los ocho eventos de acción definidos en §16, sin que ninguno dependa del paso del tiempo.</td><td>Notificaciones</td></tr>
+              <tr><td class="id">RF-30</td><td>Administrar los mantenedores del sistema desde la aplicación secundaria.</td><td>Administración</td></tr>
+              <tr><td class="id">RF-31</td><td>Activar, suspender o dar de baja empresas y usuarios.</td><td>Administración</td></tr>
+              <tr><td class="id">RF-32</td><td>Evaluar a la contraparte tras la adjudicación, puntuando cada criterio del catálogo y dejando un comentario opcional.</td><td>Reputación</td></tr>
+              <tr><td class="id">RF-33</td><td>Calcular la reputación de una empresa como promedio ponderado de las evaluaciones recibidas.</td><td>Reputación</td></tr>
+              <tr><td class="id">RF-34</td><td>Derivar y mostrar el nivel de prestigio a partir del promedio y el número de procesos evaluados, cubriendo el rango completo de la escala.</td><td>Reputación</td></tr>
+              <tr><td class="id">RF-35</td><td>Mostrar reputación, nivel y cantidad de procesos en el perfil público de la empresa.</td><td>Reputación</td></tr>
+              <tr><td class="id">RF-36</td><td>Mostrar la reputación del publicador en el listado de licitaciones y la de cada postulante en la matriz comparativa.</td><td>Reputación</td></tr>
+              <tr><td class="id">RF-37</td><td>Consultar el detalle de las evaluaciones recibidas por una empresa.</td><td>Reputación</td></tr>
+              <tr><td class="id">RF-38</td><td>Denunciar una evaluación y permitir al administrador ocultarla, excluyéndola del cálculo.</td><td>Reputación</td></tr>
+              <tr><td class="id">RF-39</td><td>Registrar de forma centralizada los errores de la aplicación, con contexto de usuario, endpoint y traza.</td><td>Calidad</td></tr>
+              <tr><td class="id">RF-40</td><td>Consultar y filtrar el log de errores desde la aplicación secundaria.</td><td>Calidad</td></tr>
+              <tr><td class="id">RF-41</td><td>Listar las empresas que alcanzaron el nivel crítico, para su revisión por parte del administrador.</td><td>Administración</td></tr>
+              <tr><td class="id">RF-42</td><td>Notificar a la empresa cuando su nivel de prestigio desciende a crítico.</td><td>Reputación</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 10 -->
+      <section id="s10">
+        <h2><span class="num">10</span><span>Requerimientos no funcionales</span></h2>
+        <p class="sub">Varios de estos vienen impuestos por la pauta del ramo, no por el negocio.</p>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th class="id">ID</th><th>Requerimiento</th><th>Categoría</th></tr></thead>
+            <tbody>
+              <tr><td class="id">RNF-01</td><td>Arquitectura en capas: presentación, controlador, servicio (negocio), repositorio (datos).</td><td>Arquitectura</td></tr>
+              <tr><td class="id">RNF-02</td><td>Backend en lenguaje orientado a objetos: Java 21 con Spring Boot.</td><td>Arquitectura</td></tr>
+              <tr><td class="id">RNF-03</td><td>Dos aplicaciones: principal (negocio) y secundaria (mantenedores), integradas.</td><td>Arquitectura</td></tr>
+              <tr><td class="id">RNF-04</td><td>Despliegue en contenedores Docker para front, API y base de datos.</td><td>Infraestructura</td></tr>
+              <tr><td class="id">RNF-05</td><td>Persistencia en Oracle Database.</td><td>Infraestructura</td></tr>
+              <tr><td class="id">RNF-06</td><td>Sin procesos programados ni tareas en segundo plano: toda acción del sistema se origina en una petición de un usuario.</td><td>Arquitectura</td></tr>
+              <tr><td class="id">RNF-07</td><td>Diseño responsivo, funcional en escritorio, tablet y móvil.</td><td>Usabilidad</td></tr>
+              <tr><td class="id">RNF-08</td><td>Todos los formularios validan en cliente y en servidor; el servidor nunca confía en la validación del cliente.</td><td>Calidad</td></tr>
+              <tr><td class="id">RNF-09</td><td>Contraseñas almacenadas con hash (BCrypt). Nunca en texto plano, nunca visibles en pantalla ni en logs.</td><td>Seguridad</td></tr>
+              <tr><td class="id">RNF-10</td><td>Sesiones con token firmado y expiración; cierre por inactividad.</td><td>Seguridad</td></tr>
+              <tr><td class="id">RNF-11</td><td>Autorización verificada en el backend en cada endpoint, no solo ocultando opciones en la interfaz.</td><td>Seguridad</td></tr>
+              <tr><td class="id">RNF-12</td><td>Comunicación cliente-servidor sobre HTTPS.</td><td>Seguridad</td></tr>
+              <tr><td class="id">RNF-13</td><td>Tiempo de respuesta bajo 3 segundos en las operaciones habituales.</td><td>Rendimiento</td></tr>
+              <tr><td class="id">RNF-14</td><td>Interfaz en español, con formato chileno de fecha y montos en CLP.</td><td>Usabilidad</td></tr>
+              <tr><td class="id">RNF-15</td><td>Bitácora de auditoría de negocio: operaciones sensibles y cambios de estado.</td><td>Trazabilidad</td></tr>
+              <tr><td class="id">RNF-16</td><td>Código versionado en Git, con repositorio compartido por el equipo.</td><td>Proceso</td></tr>
+              <tr><td class="id">RNF-17</td><td>Manejo global de excepciones: ningún error expone traza técnica ni detalle interno al usuario final.</td><td>Observabilidad</td></tr>
+              <tr><td class="id">RNF-18</td><td>Registro estructurado de errores con fecha, nivel, usuario, endpoint, mensaje y traza.</td><td>Observabilidad</td></tr>
+              <tr><td class="id">RNF-19</td><td>Retención del log de errores configurable como parámetro del sistema.</td><td>Observabilidad</td></tr>
+              <tr><td class="id">RNF-20</td><td>Pruebas unitarias sobre la capa de servicio, cubriendo explícitamente las reglas de negocio RN-01 a RN-21.</td><td>Pruebas</td></tr>
+              <tr><td class="id">RNF-21</td><td>Pruebas de integración sobre los endpoints del flujo de licitación, postulación, adjudicación y evaluación.</td><td>Pruebas</td></tr>
+              <tr><td class="id">RNF-22</td><td>Pruebas de frontend sobre los componentes de formulario y sus validaciones.</td><td>Pruebas</td></tr>
+              <tr><td class="id">RNF-23</td><td>Suite de pruebas ejecutable de forma automatizada y reproducible con un solo comando.</td><td>Pruebas</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 11 -->
+      <section id="s11">
+        <h2><span class="num">11</span><span>Mantenedores · aplicación secundaria</span></h2>
+        <p class="sub">La pauta exige al menos diez. Estos quince le dan autonomía real al administrador.</p>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th class="id">N.º</th><th>Mantenedor</th><th>Para qué existe</th></tr></thead>
+            <tbody>
+              <tr><td class="id tnum">01</td><td>Usuarios</td><td>Alta, edición, activación y baja de usuarios de cada empresa.</td></tr>
+              <tr><td class="id tnum">02</td><td>Empresas</td><td>Revisar, activar o suspender empresas registradas y sus datos.</td></tr>
+              <tr><td class="id tnum">03</td><td>Roles y permisos</td><td>Definir qué puede hacer cada rol dentro del sistema.</td></tr>
+              <tr><td class="id tnum">04</td><td>Rubros</td><td>Catálogo de rubros o categorías bajo las cuales se clasifica cada licitación.</td></tr>
+              <tr><td class="id tnum">05</td><td>Regiones y comunas</td><td>División territorial usada en registro, filtros y reportes.</td></tr>
+              <tr><td class="id tnum">06</td><td>Tipos de requisito</td><td>Catálogo de tipos de requisito de compliance (certificación, experiencia, capacidad, cobertura…).</td></tr>
+              <tr><td class="id tnum">07</td><td>Plantillas de requisitos</td><td>Conjuntos de requisitos reutilizables por rubro, para acelerar la publicación.</td></tr>
+              <tr><td class="id tnum">08</td><td>Estados</td><td>Estados de licitación y postulación, con su descripción visible al usuario.</td></tr>
+              <tr><td class="id tnum">09</td><td>Monedas y unidades</td><td>CLP, UF y unidades de medida usadas en los presupuestos.</td></tr>
+              <tr><td class="id tnum">10</td><td>Plantillas de notificación</td><td>Textos de los correos que envía el sistema en cada evento.</td></tr>
+              <tr><td class="id tnum">11</td><td>Parámetros del sistema</td><td>Ventana de evaluación, tamaño máximo de adjuntos, vigencia de sesión, retención de logs.</td></tr>
+              <tr><td class="id tnum">12</td><td>Bitácora de auditoría</td><td>Consulta y filtrado del registro de operaciones de negocio (solo lectura).</td></tr>
+              <tr><td class="id tnum">13</td><td>Criterios de evaluación</td><td>Catálogo de criterios de reputación, su descripción y su ponderación en el cálculo.</td></tr>
+              <tr><td class="id tnum">14</td><td>Niveles de prestigio</td><td>Nombre, umbrales de promedio y de procesos de cada tramo de la escala, y si el tramo exige revisión administrativa.</td></tr>
+              <tr><td class="id tnum">15</td><td>Log de errores</td><td>Consulta, filtrado y depuración del registro técnico de errores (solo lectura).</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 12 -->
+      <section id="s12">
+        <h2><span class="num">12</span><span>Casos de uso iniciales</span></h2>
+        <p class="sub">Propuesta para el Documento de Casos de Uso Extendido. La columna "tipo" es la que pide la pauta.</p>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th class="id">ID</th><th>Caso de uso</th><th>Actores</th><th>Tipo</th></tr></thead>
+            <tbody>
+              <tr><td class="id">CU-01</td><td>Registrar empresa con validación SII</td><td>Visitante, Servicio SII</td><td><span class="pill p-main">Negocio · principal</span></td></tr>
+              <tr><td class="id">CU-02</td><td>Iniciar sesión</td><td>Empresa, Administrador</td><td><span class="pill p-main">Negocio · principal</span></td></tr>
+              <tr><td class="id">CU-03</td><td>Publicar licitación</td><td>Empresa</td><td><span class="pill p-main">Negocio · principal</span></td></tr>
+              <tr><td class="id">CU-04</td><td>Definir requisitos de la licitación</td><td>Empresa</td><td><span class="pill p-main">Negocio · principal</span></td></tr>
+              <tr><td class="id">CU-05</td><td>Buscar licitaciones con filtros</td><td>Empresa, Visitante</td><td><span class="pill p-main">Negocio · principal</span></td></tr>
+              <tr><td class="id">CU-06</td><td>Postular declarando cumplimiento</td><td>Empresa</td><td><span class="pill p-main">Negocio · principal</span></td></tr>
+              <tr><td class="id">CU-07</td><td>Retirar postulación</td><td>Empresa</td><td><span class="pill p-main">Negocio · principal</span></td></tr>
+              <tr><td class="id">CU-08</td><td>Comparar postulantes</td><td>Empresa</td><td><span class="pill p-main">Negocio · principal</span></td></tr>
+              <tr><td class="id">CU-09</td><td>Adjudicar licitación</td><td>Empresa</td><td><span class="pill p-main">Negocio · principal</span></td></tr>
+              <tr><td class="id">CU-10</td><td>Declarar licitación desierta</td><td>Empresa</td><td><span class="pill p-main">Negocio · principal</span></td></tr>
+              <tr><td class="id">CU-11</td><td>Consultar panel de trazabilidad</td><td>Empresa</td><td><span class="pill p-main">Negocio · principal</span></td></tr>
+              <tr><td class="id">CU-12</td><td>Generar reporte de licitaciones (PDF/XLS)</td><td>Empresa, Administrador</td><td><span class="pill p-main">Negocio · principal</span></td></tr>
+              <tr><td class="id">CU-13</td><td>Generar reporte de postulaciones (PDF/XLS)</td><td>Empresa, Administrador</td><td><span class="pill p-main">Negocio · principal</span></td></tr>
+              <tr><td class="id">CU-14</td><td>Evaluar a la contraparte tras la adjudicación</td><td>Empresa</td><td><span class="pill p-main">Negocio · principal</span></td></tr>
+              <tr><td class="id">CU-15</td><td>Consultar reputación y evaluaciones de una empresa</td><td>Empresa, Visitante</td><td><span class="pill p-main">Negocio · principal</span></td></tr>
+              <tr><td class="id">CU-16</td><td>Denunciar una evaluación</td><td>Empresa</td><td><span class="pill p-main">Negocio · principal</span></td></tr>
+              <tr><td class="id">CU-17</td><td>Mantenedor de usuarios</td><td>Administrador</td><td><span class="pill p-maint">Mantención · secundaria</span></td></tr>
+              <tr><td class="id">CU-18</td><td>Mantenedor de empresas</td><td>Administrador</td><td><span class="pill p-maint">Mantención · secundaria</span></td></tr>
+              <tr><td class="id">CU-19</td><td>Mantenedor de rubros</td><td>Administrador</td><td><span class="pill p-maint">Mantención · secundaria</span></td></tr>
+              <tr><td class="id">CU-20</td><td>Mantenedor de tipos de requisito</td><td>Administrador</td><td><span class="pill p-maint">Mantención · secundaria</span></td></tr>
+              <tr><td class="id">CU-21</td><td>Mantenedor de criterios de evaluación</td><td>Administrador</td><td><span class="pill p-maint">Mantención · secundaria</span></td></tr>
+              <tr><td class="id">CU-22</td><td>Moderar evaluación denunciada</td><td>Administrador</td><td><span class="pill p-maint">Mantención · secundaria</span></td></tr>
+              <tr><td class="id">CU-23</td><td>Consultar bitácora de auditoría</td><td>Administrador</td><td><span class="pill p-maint">Mantención · secundaria</span></td></tr>
+              <tr><td class="id">CU-24</td><td>Consultar y filtrar el log de errores</td><td>Administrador</td><td><span class="pill p-maint">Mantención · secundaria</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 13 -->
+      <section id="s13">
+        <h2><span class="num">13</span><span>Modelo de datos preliminar</span></h2>
+        <p class="sub">Entidades principales y sus campos clave. Sujeto a refinamiento en la etapa de diseño.</p>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th class="id">Entidad</th><th>Campos principales</th><th>Relaciones</th></tr></thead>
+            <tbody>
+              <tr><td class="id">EMPRESA</td><td class="mono-cell">id, rut, razon_social, giro, email, telefono, region_id, comuna_id, estado, fecha_registro, reputacion_promedio, total_evaluaciones, nivel_prestigio_id</td><td>1:N con USUARIO, LICITACION, POSTULACION, EVALUACION</td></tr>
+              <tr><td class="id">USUARIO</td><td class="mono-cell">id, empresa_id, nombre, email, password_hash, rol_id, activo, ultimo_acceso</td><td>N:1 con EMPRESA y ROL</td></tr>
+              <tr><td class="id">ROL</td><td class="mono-cell">id, nombre, descripcion</td><td>1:N con USUARIO</td></tr>
+              <tr><td class="id">LICITACION</td><td class="mono-cell">id, empresa_id, titulo, descripcion, rubro_id, region_id, presupuesto, moneda_id, fecha_publicacion, fecha_cierre, estado</td><td>1:N con REQUISITO, POSTULACION, DOCUMENTO</td></tr>
+              <tr><td class="id">REQUISITO</td><td class="mono-cell">id, licitacion_id, descripcion, tipo_requisito_id, obligatorio, orden</td><td>N:1 con LICITACION; 1:N con DECLARACION</td></tr>
+              <tr><td class="id">POSTULACION</td><td class="mono-cell">id, licitacion_id, empresa_id, fecha_envio, monto_ofertado, observaciones, estado</td><td>N:1 con LICITACION y EMPRESA; 1:N con DECLARACION</td></tr>
+              <tr><td class="id">DECLARACION</td><td class="mono-cell">id, postulacion_id, requisito_id, cumple, comentario, fecha_declaracion</td><td>N:1 con POSTULACION y REQUISITO</td></tr>
+              <tr><td class="id">ADJUDICACION</td><td class="mono-cell">id, licitacion_id, postulacion_id, fecha, motivo, usuario_id, fecha_limite_evaluacion</td><td>1:1 con LICITACION</td></tr>
+              <tr><td class="id">EVALUACION</td><td class="mono-cell">id, licitacion_id, empresa_evaluadora_id, empresa_evaluada_id, fecha, comentario, visible, denunciada</td><td>N:1 con LICITACION y EMPRESA; 1:N con EVALUACION_DETALLE</td></tr>
+              <tr><td class="id">EVALUACION_DETALLE</td><td class="mono-cell">id, evaluacion_id, criterio_id, puntaje</td><td>N:1 con EVALUACION y CRITERIO_EVALUACION</td></tr>
+              <tr><td class="id">CRITERIO_EVALUACION</td><td class="mono-cell">id, nombre, descripcion, ponderacion, aplica_a, activo</td><td>1:N con EVALUACION_DETALLE</td></tr>
+              <tr><td class="id">NIVEL_PRESTIGIO</td><td class="mono-cell">id, nombre, min_promedio, max_promedio, min_procesos, orden, requiere_revision</td><td>1:N con EMPRESA</td></tr>
+              <tr><td class="id">DOCUMENTO</td><td class="mono-cell">id, licitacion_id, nombre, ruta, tipo_mime, tamano, fecha_carga</td><td>N:1 con LICITACION</td></tr>
+              <tr><td class="id">BITACORA</td><td class="mono-cell">id, entidad, entidad_id, estado_anterior, estado_nuevo, usuario_id, fecha, detalle</td><td>Transversal · negocio</td></tr>
+              <tr><td class="id">LOG_ERROR</td><td class="mono-cell">id, fecha, nivel, origen, endpoint, mensaje, traza, usuario_id</td><td>Transversal · técnico</td></tr>
+              <tr><td class="id">RUBRO</td><td class="mono-cell">id, nombre, descripcion, activo</td><td>1:N con LICITACION</td></tr>
+              <tr><td class="id">TIPO_REQUISITO</td><td class="mono-cell">id, nombre, descripcion, activo</td><td>1:N con REQUISITO</td></tr>
+              <tr><td class="id">REGION / COMUNA</td><td class="mono-cell">id, nombre, region_id</td><td>Catálogo territorial</td></tr>
+              <tr><td class="id">PARAMETRO</td><td class="mono-cell">id, clave, valor, descripcion</td><td>Configuración</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="note">
+          <p><strong>El modelo tiene dos ejes.</strong> La tripleta <code>REQUISITO → DECLARACION ← POSTULACION</code> convierte el compliance en datos consultables: permite construir la matriz comparativa y alimentar el reporte de cumplimiento. La cadena <code>ADJUDICACION → EVALUACION → EMPRESA</code> cierra el ciclo, devolviendo a la empresa el resultado de su comportamiento. Si esas dos relaciones quedan bien resueltas, el resto del sistema es CRUD.</p>
+          <p><strong>Por qué <code>POSTULACION</code> no lleva un campo <code>conforme</code>:</strong> sería siempre verdadero. RN-09 impide que se persista una postulación que incumple un requisito obligatorio, así que la conformidad es una invariante del modelo, no un dato que haya que almacenar.</p>
+        </div>
+      </section>
+
+      <!-- 14 -->
+      <section id="s14">
+        <h2><span class="num">14</span><span>Arquitectura y stack</span></h2>
+        <p class="sub">Cómo se reparte el sistema y por dónde pasa cada petición.</p>
+
+        <figure>
+          <div class="figbox">
+            <svg viewBox="0 0 900 372" role="img" aria-label="Diagrama de arquitectura: el navegador del usuario habla por HTTPS con el contenedor web de Angular servido por Nginx; este llama por REST con JWT a la API Spring Boot, que internamente pasa por controlador, servicio y repositorio, y accede por JDBC al contenedor de Oracle. La capa de servicio consulta además el servicio externo del SII para validar RUT y giro.">
+              <defs>
+                <marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"></path>
+                </marker>
+              </defs>
+
+              <rect class="svg-node" x="150" y="14" width="240" height="42" rx="4"></rect>
+              <text class="svg-label" x="270" y="40" text-anchor="middle">Navegador del usuario</text>
+
+              <line x1="270" y1="56" x2="270" y2="92" stroke="currentColor" stroke-width="1.4" marker-end="url(#ar2)"></line>
+              <text class="svg-edge" x="280" y="79" text-anchor="start">HTTPS</text>
+
+              <rect x="26" y="96" width="488" height="258" rx="6" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="5 4" opacity=".55"></rect>
+              <text class="svg-edge" x="38" y="115" text-anchor="start">Docker Compose</text>
+
+              <rect class="svg-node" x="52" y="126" width="436" height="42" rx="4"></rect>
+              <text class="svg-label" x="270" y="152" text-anchor="middle">Contenedor web · Angular + Nginx</text>
+
+              <line x1="270" y1="168" x2="270" y2="200" stroke="currentColor" stroke-width="1.4" marker-end="url(#ar2)"></line>
+              <text class="svg-edge" x="258" y="188" text-anchor="end">REST /api · JWT</text>
+
+              <rect class="svg-node" x="52" y="204" width="436" height="80" rx="4"></rect>
+              <text class="svg-edge" x="64" y="222" text-anchor="start">Contenedor API · Java 21 + Spring Boot</text>
+              <rect x="66" y="232" width="126" height="38" rx="3" fill="none" stroke="currentColor" stroke-width="1" opacity=".7"></rect>
+              <text class="svg-label" x="129" y="256" text-anchor="middle">Controller</text>
+              <rect x="207" y="232" width="126" height="38" rx="3" fill="none" stroke="var(--accent)" stroke-width="1.4"></rect>
+              <text class="svg-goal-text" x="270" y="256" text-anchor="middle">Service</text>
+              <rect x="348" y="232" width="126" height="38" rx="3" fill="none" stroke="currentColor" stroke-width="1" opacity=".7"></rect>
+              <text class="svg-label" x="411" y="256" text-anchor="middle">Repository</text>
+
+              <line x1="270" y1="284" x2="270" y2="308" stroke="currentColor" stroke-width="1.4" marker-end="url(#ar2)"></line>
+              <text class="svg-edge" x="280" y="301" text-anchor="start">JDBC</text>
+
+              <rect class="svg-node" x="52" y="312" width="436" height="32" rx="4"></rect>
+              <text class="svg-label" x="270" y="333" text-anchor="middle">Contenedor BD · Oracle</text>
+
+              <rect class="svg-goal" x="640" y="160" width="232" height="52" rx="4"></rect>
+              <text class="svg-goal-text" x="756" y="182" text-anchor="middle">Servicio SII</text>
+              <text class="svg-edge" x="756" y="199" text-anchor="middle" fill="var(--accent-ink)">validación RUT y giro</text>
+
+              <path d="M 310 232 L 310 186 L 634 186" fill="none" stroke="var(--accent)" stroke-width="1.6" marker-end="url(#ar2)"></path>
+              <text class="svg-edge" x="474" y="178" text-anchor="middle" fill="var(--accent-ink)">consulta al registrar</text>
+            </svg>
+          </div>
+          <figcaption>Toda la lógica de negocio vive en la capa <em>Service</em>: es la única que decide, la única que llama al SII, la única que recalcula reputación y la única que escribe en bitácora. El controlador solo traduce HTTP, y el repositorio solo traduce SQL. No hay ningún componente adicional escuchando el reloj.</figcaption>
+        </figure>
+
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th class="id">Capa</th><th>Tecnología</th><th>Responsabilidad</th></tr></thead>
+            <tbody>
+              <tr><td class="id">Presentación</td><td class="mono-cell">Angular</td><td>Componentes, formularios con validación, consumo de la API, diseño responsivo.</td></tr>
+              <tr><td class="id">Controlador</td><td class="mono-cell">Spring Web (REST)</td><td>Exponer endpoints, validar el contrato de entrada, mapear DTOs, devolver códigos HTTP.</td></tr>
+              <tr><td class="id">Servicio</td><td class="mono-cell">Spring · Java 21</td><td>Reglas de negocio, transiciones de estado, cierre perezoso, cálculo de reputación, llamadas al SII, bitácora.</td></tr>
+              <tr><td class="id">Repositorio</td><td class="mono-cell">Spring Data JPA</td><td>Persistencia y consultas sobre Oracle.</td></tr>
+              <tr><td class="id">Datos</td><td class="mono-cell">Oracle Database</td><td>Almacenamiento relacional, integridad referencial.</td></tr>
+              <tr><td class="id">Seguridad</td><td class="mono-cell">Spring Security · JWT · BCrypt</td><td>Autenticación, autorización por rol, hash de contraseñas.</td></tr>
+              <tr><td class="id">Observabilidad</td><td class="mono-cell">SLF4J · Logback · @ControllerAdvice</td><td>Manejador global de excepciones y registro centralizado de errores en <code>LOG_ERROR</code>.</td></tr>
+              <tr><td class="id">Pruebas</td><td class="mono-cell">JUnit 5 · Mockito · Spring Boot Test · Karma</td><td>Pruebas unitarias de servicio, de integración de endpoints y de componentes Angular.</td></tr>
+              <tr><td class="id">Infraestructura</td><td class="mono-cell">Docker · Docker Compose</td><td>Un contenedor por pieza: web, API y base de datos.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="note">
+          <p><strong>Sobre "dos aplicaciones".</strong> La pauta exige una aplicación principal de negocio y una secundaria de mantenedores. Aquí se resuelven como dos frontends Angular separados —<code>/app</code> y <code>/admin</code>— que consumen la misma API con distinto rol. Son dos aplicaciones desde la perspectiva del usuario y del despliegue, compartiendo backend y base de datos.</p>
+        </div>
+
+        <div class="note">
+          <p><strong>Sobre el cierre perezoso.</strong> Al quitar los correos basados en fecha, desaparece también la necesidad de un planificador. El servicio evalúa <code>fecha_cierre</code> cada vez que alguien accede a una licitación: si ya pasó, la transición a <code>EN EVALUACIÓN</code> se persiste en ese momento y se registra en bitácora. El efecto visible para el usuario es idéntico —nadie puede postular fuera de plazo— pero el sistema no necesita ningún componente corriendo en segundo plano (RNF-06).</p>
+        </div>
+      </section>
+
+      <!-- 15 -->
+      <section id="s15">
+        <h2><span class="num">15</span><span>Integración con el SII</span></h2>
+        <p class="sub">La interoperabilidad que exige el ramo, resuelta donde tiene sentido de negocio.</p>
+        <p>La regla de negocio central —solo empresas con giro comercial— exige una fuente de verdad externa. Por eso la integración no es un agregado para cumplir un requisito: es lo que hace creíble el filtro de acceso a la plataforma, y por extensión lo que hace creíble la reputación, porque impide crear cuentas desechables para inflar puntajes.</p>
+        <ul class="plain">
+          <li><strong>Cuándo se invoca:</strong> durante el registro (RF-02), antes de crear la cuenta.</li>
+          <li><strong>Qué se consulta:</strong> existencia y validez del RUT, y presencia de giro comercial vigente.</li>
+          <li><strong>Qué se guarda:</strong> el resultado de la validación, con fecha, en la ficha de la empresa.</li>
+          <li><strong>Si el servicio no responde:</strong> el registro queda en estado <em>pendiente de validación</em> y el usuario puede reintentar; nunca se activa una cuenta sin validar. El reintento es una acción del usuario, no un reintento automático en segundo plano (RNF-06).</li>
+        </ul>
+        <div class="open">
+          <h4>Por confirmar con el docente</h4>
+          <p>Si el servicio real del SII no es accesible desde el ambiente de desarrollo, la alternativa es construir un servicio REST propio que simule la validación (permitido explícitamente por la pauta: <em>"puede ser construido por el equipo"</em>). Conviene definirlo temprano, porque cambia el trabajo de la etapa de integración.</p>
+        </div>
+      </section>
+
+      <!-- 16 -->
+      <section id="s16">
+        <h2><span class="num">16</span><span>Reportes y correos</span></h2>
+        <p class="sub">Dos reportes con filtros y exportación, y los correos que emite el sistema.</p>
+        <h3>Reportes</h3>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th class="id">ID</th><th>Reporte</th><th>Filtros</th><th>Salida</th></tr></thead>
+            <tbody>
+              <tr><td class="id">RPT-01</td><td>Licitaciones publicadas</td><td>Rango de fechas, estado, rubro, región, empresa publicadora</td><td class="mono-cell">Pantalla · PDF · XLS</td></tr>
+              <tr><td class="id">RPT-02</td><td>Postulaciones y cumplimiento</td><td>Licitación, empresa postulante, estado, requisitos deseables cumplidos, rango de fechas</td><td class="mono-cell">Pantalla · PDF · XLS</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>RPT-02 filtra por requisitos <em>deseables</em> cumplidos y no por conformidad general: como toda postulación registrada cumple los obligatorios (RN-09), un filtro por conformidad devolvería siempre el universo completo.</p>
+
+        <h3>Correos</h3>
+        <p>Todos los envíos se originan en una acción de un usuario. Ninguno depende de que algo esté observando una fecha.</p>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th class="id">Disparador</th><th>Destinatario</th><th>Origen</th></tr></thead>
+            <tbody>
+              <tr><td class="id">Registro validado</td><td>Empresa que se registró</td><td>Acción: completar registro</td></tr>
+              <tr><td class="id">Nueva postulación recibida</td><td>Empresa publicadora</td><td>Acción: enviar postulación</td></tr>
+              <tr><td class="id">Postulación retirada</td><td>Empresa publicadora</td><td>Acción: retirar postulación</td></tr>
+              <tr><td class="id">Resultado de adjudicación</td><td>Todos los postulantes</td><td>Acción: adjudicar</td></tr>
+              <tr><td class="id">Licitación declarada desierta</td><td>Todos los postulantes</td><td>Acción: declarar desierta</td></tr>
+              <tr><td class="id">Invitación a evaluar</td><td>Publicador y adjudicatario</td><td>Acción: adjudicar</td></tr>
+              <tr><td class="id">Evaluación recibida</td><td>Empresa evaluada</td><td>Acción: enviar evaluación</td></tr>
+              <tr><td class="id">Descenso a nivel crítico</td><td>Empresa afectada</td><td>Acción: enviar evaluación</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="note">
+          <p><strong>No hay avisos de plazo ni de cierre.</strong> Un correo de "próxima a cerrar" o de "licitación cerrada" exigiría un componente observando el reloj, que es justamente lo que RNF-06 descarta. Los postulantes se enteran del desenlace cuando el publicador adjudica o declara desierta, que es cuando hay algo que informar; hasta entonces, el estado del proceso está siempre visible en su panel de trazabilidad.</p>
+        </div>
+      </section>
+
+      <!-- 17 -->
+      <section id="s17">
+        <h2><span class="num">17</span><span>Calidad, pruebas y observabilidad</span></h2>
+        <p class="sub">Cómo sabemos que el sistema funciona y qué hacemos cuando falla.</p>
+
+        <h3>Dos registros distintos, con propósitos distintos</h3>
+        <p>El sistema mantiene dos bitácoras que conviene no confundir:</p>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th class="id">Registro</th><th>Qué guarda</th><th>Quién lo lee</th><th>Entidad</th></tr></thead>
+            <tbody>
+              <tr><td class="id">Bitácora de negocio</td><td>Cambios de estado, adjudicaciones, retiros, moderaciones: hechos del dominio.</td><td>Administrador, y parcialmente la empresa en su panel.</td><td class="mono-cell">BITACORA</td></tr>
+              <tr><td class="id">Log de errores</td><td>Excepciones, fallas de integración, errores de validación en servidor: hechos técnicos.</td><td>Solo el administrador, desde la app secundaria.</td><td class="mono-cell">LOG_ERROR</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Manejo y auditoría de errores</h3>
+        <ul class="plain">
+          <li>Un manejador global de excepciones (<code>@ControllerAdvice</code>) captura toda excepción no controlada antes de que llegue al usuario.</li>
+          <li>El usuario recibe un mensaje claro y accionable, sin traza técnica ni detalle interno (RNF-17).</li>
+          <li>El error se persiste con fecha, nivel, origen, endpoint, usuario y traza completa (RNF-18).</li>
+          <li>El administrador consulta y filtra el log desde la aplicación secundaria por fecha, nivel y endpoint (RF-40).</li>
+          <li>La retención es un parámetro del sistema; la depuración del log es una acción manual del administrador, no un proceso programado (RNF-06, RNF-19).</li>
+          <li>Las credenciales y datos sensibles nunca se escriben en el log (RNF-09).</li>
+        </ul>
+
+        <h3>Estrategia de pruebas</h3>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th class="id">Nivel</th><th>Qué cubre</th><th>Herramienta</th></tr></thead>
+            <tbody>
+              <tr><td class="id">Unitarias</td><td>La capa de servicio, con un caso por regla de negocio RN-01 a RN-19. Son la red de seguridad del dominio.</td><td class="mono-cell">JUnit 5 · Mockito</td></tr>
+              <tr><td class="id">Integración</td><td>Los endpoints del flujo completo: publicar, postular, bloquear por RN-09, adjudicar, evaluar.</td><td class="mono-cell">Spring Boot Test</td></tr>
+              <tr><td class="id">Frontend</td><td>Componentes de formulario y sus validaciones, en particular el formulario de postulación.</td><td class="mono-cell">Karma · Jasmine</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="note">
+          <p><strong>Las reglas de negocio son el mapa de pruebas.</strong> Cada RN de §5 es un caso de prueba con nombre propio: RN-05 comprueba que no se puede postular a la propia licitación, RN-09 que el envío se bloquea al declarar incumplimiento obligatorio, RN-17 que la segunda evaluación de una misma parte es rechazada, RN-20 que el nivel de prestigio baja y vuelve a subir según las evaluaciones recibidas. Eso da un criterio objetivo de cuándo la suite está completa, en vez de perseguir un porcentaje de cobertura.</p>
+        </div>
+      </section>
+
+      <!-- 18 -->
+      <section id="s18">
+        <h2><span class="num">18</span><span>Cumplimiento de los requisitos del ramo</span></h2>
+        <p class="sub">Cada exigencia de la pauta, y dónde queda resuelta en este diseño.</p>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th class="id">Exige la pauta</th><th>Cómo se resuelve</th><th class="id">Ref.</th></tr></thead>
+            <tbody>
+              <tr><td>Aplicación web con patrón de capas</td><td>Angular · Controller · Service · Repository · Oracle</td><td class="id">RNF-01</td></tr>
+              <tr><td>Lenguaje orientado a objetos</td><td>Java 21 con Spring Boot</td><td class="id">RNF-02</td></tr>
+              <tr><td>Dos aplicaciones: principal y secundaria integradas</td><td>Frontends <code>/app</code> y <code>/admin</code> sobre la misma API</td><td class="id">RNF-03</td></tr>
+              <tr><td>Al menos diez mantenedores</td><td>Quince mantenedores en la aplicación secundaria</td><td class="id">§11</td></tr>
+              <tr><td>Un módulo completo de negocio</td><td>Licitación → postulación con compliance → adjudicación → evaluación y reputación</td><td class="id">§7, §8</td></tr>
+              <tr><td>Dos reportes con filtros, exportables a PDF y XLS</td><td>RPT-01 y RPT-02</td><td class="id">RF-27, RF-28</td></tr>
+              <tr><td>Enmascarar claves y sesiones</td><td>BCrypt para contraseñas; JWT firmado con expiración</td><td class="id">RNF-09, RNF-10</td></tr>
+              <tr><td>Autenticación, sesiones, perfiles o roles</td><td>Spring Security con roles Administrador y Empresa</td><td class="id">RF-03 a RF-05</td></tr>
+              <tr><td>Notificaciones por correo o mensajería móvil</td><td>Ocho correos, todos disparados por acciones de usuario</td><td class="id">RF-29, §16</td></tr>
+              <tr><td>Interoperabilidad con al menos un servicio</td><td>Servicio del SII para validar RUT y giro</td><td class="id">§15</td></tr>
+              <tr><td>Diseño responsivo</td><td>Angular con layout adaptable a móvil y escritorio</td><td class="id">RNF-07</td></tr>
+              <tr><td>Validaciones en todos los formularios</td><td>Validación en cliente y verificación obligatoria en servidor</td><td class="id">RNF-08</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="note">
+          <p>La auditoría de errores y la suite de pruebas (§17) no las exige la pauta de forma explícita, pero sostienen el indicador de calidad disciplinar de la carrera —<em>diseñar y aplicar pruebas de validación con buenas prácticas de la industria</em>— y dan material concreto para la evidencia de la Fase 2.</p>
+        </div>
+      </section>
+
+      <!-- 19 -->
+      <section id="s19">
+        <h2><span class="num">19</span><span>Decisiones abiertas</span></h2>
+        <p class="sub">Lo que todavía no está resuelto. Si algo de esto cambia, cambia la especificación.</p>
+
+        <div class="open">
+          <h4>Ventana de evaluación</h4>
+          <p>RN-16 define una ventana de N días tras la adjudicación, pero N no está fijado. Es parámetro del sistema; hay que elegir un valor por defecto.</p>
+        </div>
+        <div class="open">
+          <h4>Acceso real al servicio del SII</h4>
+          <p>Si no hay acceso desde el ambiente de desarrollo, se construye un servicio REST propio que simule la validación. Definirlo antes de la etapa de integración.</p>
+        </div>
+        <div class="open">
+          <h4>Alcance de la carga de documentos</h4>
+          <p>Falta definir si los adjuntos se guardan en el sistema de archivos del contenedor, en la base como BLOB, o si se limitan a un tamaño acotado. Afecta al modelo de datos y al despliegue.</p>
+        </div>
+        <div class="open">
+          <h4>Evidencias del proyecto</h4>
+          <p>La guía de Fase 1 exige acordarlas con el docente. Están pendientes en el documento 1.5 y en el informe.</p>
+        </div>
+        <div class="open">
+          <h4>Factibilidad: horas y semestre</h4>
+          <p>Falta el dato de horas semanales de la asignatura para completar la justificación de factibilidad en la guía.</p>
+        </div>
+        <div class="open">
+          <h4>Sede del equipo</h4>
+          <p>Falta el dato de la sede para completar los antecedentes de la guía 1.5 y del informe de la pauta 1.3. Nombres, RUT y carrera ya están definidos.</p>
+        </div>
+      </section>
+
+      <footer class="end">
+        <p>Especificación preparada por Pablo Renato Carrera Cabello e Ignacio Antonio Carrera Cabello para el Proyecto APT de la asignatura Capstone (PTY4614), Escuela de Informática y Telecomunicaciones, Duoc UC. Documento de trabajo: se actualiza cuando cambie alguna decisión de diseño o de alcance.</p>
+      </footer>
+
+    </main>
+  </div>
+</div>
+</body></html>
